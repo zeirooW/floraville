@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import traceback
 
 app = Flask(__name__)
+print("hello")
 
 uri = "mongodb+srv://yuzenn:HruvvlSa21CtbIcl@cluster0.taytznu.mongodb.net/?appName=Cluster0"
 client = MongoClient(uri)
