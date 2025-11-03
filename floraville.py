@@ -39,7 +39,7 @@ def load_data(user_id):
     try:
         doc = players.find_one({"UserId": user_id}, {"_id": 0})
         if not doc:
-            return jsonify({"Data": None})
+            return 
         return jsonify(doc)
     except Exception as e:
         print(traceback.format_exc())
