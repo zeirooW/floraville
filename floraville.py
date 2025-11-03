@@ -45,6 +45,13 @@ def load_data(user_id):
         print(traceback.format_exc())
         return jsonify({"error": "Internal server error"}), 500
 
+@app.route("/delete/<int:user_id>", methods=["DELETE"])
+def delete_data(user_id):
+    result = players.delete_one({"UserId": user_id})
+    if result.deleted_count == 0:
+        return jsonify({"error": "User not found"}), 404
+    return jsonify({"success": True, "message": f"Data for user {user_id} deleted."})
+
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
