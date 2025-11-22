@@ -1,3 +1,4 @@
+-- to test this script u need to buy seeds and plant them at ur garden. if ur money = 0 or label just wait, my database needs some time to start working
 local RS = game:GetService("ReplicatedStorage")
 local Remotes = RS:FindFirstChild("Remotes")
 local FlowersData = require(RS.src.shared.FlowersData) -- all  flowers data
@@ -54,11 +55,7 @@ local function Harvest(Base, Flower, FlowerData)--harvest function
 					
 					local ID = IDhandler.GetFlowerID()
 					FlowerTool:SetAttribute("ID", "Flower"..ID)
-					--if Flower:GetAttribute("Enchantments") then
-					--	FlowerTool:SetAttribute("Enchantments", Flower:GetAttribute("Enchantments"))
-					--	EnchantmentHandler.AddEnchantmentsFromAttribute(FlowerTool)
-					--	VFXHandler.SetEnabledTrue(FlowerTool)
-					--end
+
 					local FlowerValue = Instance.new("StringValue", plr.Inventory.Flowers)
 					FlowerValue.Name = "Flower"..ID
 					local PlantData = {}
@@ -260,7 +257,7 @@ local function Plant(FlowerName,FlowerModelData, Base) -- plant flower func
 		end
 	end)
 	
-	FlowerModel:GetAttributeChangedSignal("GrowRate"):Connect(function()
+	FlowerModel:GetAttributeChangedSignal("GrowRate"):Connect(function() -- if added a fertilizer - restart grow with fertilzer bonus	
 		if not debounce and not (FlowerModel:GetAttribute("Elapsed") / FlowerData.Stages >= 1) then
 			debounce = true
 			task.delay(2, function()
@@ -273,20 +270,6 @@ local function Plant(FlowerName,FlowerModelData, Base) -- plant flower func
 			coroutine.resume(cor, FlowerModel, FlowerData, Base, PlantedAt)
 		end
 	end)
-	
-	--FlowerModel:GetAttributeChangedSignal("GrowRate"):Connect(function()
-	--	if not debounce then
-	--		debounce = true
-	--		task.delay(2, function()
-	--			debounce = false
-	--		end)
-	--		coroutine.close(cor)
-	--		task.wait(2)
-	--		PlantedAt = FlowerModel:GetAttribute("PlantedAt")
-	--		cor = coroutine.create(Grow)
-	--		coroutine.resume(cor, FlowerModel, FlowerData, Base, PlantedAt)
-	--	end
-	--end)
 end
 
 Remotes.Plant.OnServerEvent:Connect(function(plr, groundmodel, mousehit)
@@ -343,5 +326,4 @@ RS.Bindable.GrowOffline.Event:Connect(function(plr, FlowerName, FlowerModelData)
 
 	Plant(FlowerName, FlowerModelData, Base) -- PlantedAt ~= nil
 end)
-
 
